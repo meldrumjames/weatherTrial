@@ -1,4 +1,5 @@
 ﻿using System;
+using weatherTrial.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace weatherTrial
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new CurrentWeather();
         }
 
         protected override void OnStart()
