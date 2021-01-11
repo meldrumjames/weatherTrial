@@ -18,6 +18,7 @@ namespace weatherTrial.Views
         {
             InitializeComponent();
             GetWeatherInfo();
+            GetForecast();
         }
 
         private string Location = "London";
@@ -44,7 +45,8 @@ namespace weatherTrial.Views
                     cloudinessTxt.Text = $"{weatherInfo.clouds.all}%";
 
                     var dt = new DateTime(1970, 01, 01).ToUniversalTime().AddSeconds(weatherInfo.dt);
-                    dateTxt.Text = dt.ToString("dddd, MMM dd").ToUpper();
+                    //dateTxt.Text = dt.ToString("dddd, MMM dd").ToUpper();
+                    dateTxt.Text = DateTime.Now.ToString();
                 }
                 catch (Exception ex)
                 {
@@ -73,7 +75,6 @@ namespace weatherTrial.Views
                     foreach (var list in forecastInfo.list)
                     {
                         var date = DateTime.Parse(list.dt_txt);
-                        //var date = new DateTime(1970, 01, 01).
 
                         if (date > DateTime.Now && date.Hour == 0 && date.Minute == 0 && date.Second == 0)
                             allList.Add(list);
@@ -94,10 +95,10 @@ namespace weatherTrial.Views
                     iconThreeImg.Source = $"w{allList[2].weather[0].icon}";
                     tempThreeTxt.Text = allList[2].main.temp.ToString("0");
 
-                    dayThreeTxt.Text = DateTime.Parse(allList[3].dt_txt).ToString("dddd");
-                    dateThreeTxt.Text = DateTime.Parse(allList[3].dt_txt).ToString("dd MMM");
-                    iconThreeImg.Source = $"w{allList[3].weather[0].icon}";
-                    tempThreeTxt.Text = allList[3].main.temp.ToString("0");
+                    dayFourTxt.Text = DateTime.Parse(allList[3].dt_txt).ToString("dddd");
+                    dateFourTxt.Text = DateTime.Parse(allList[3].dt_txt).ToString("dd MMM");
+                    iconFourImg.Source = $"w{allList[3].weather[0].icon}";
+                    tempFourTxt.Text = allList[3].main.temp.ToString("0");
                 }
                 catch (Exception ex)
                 {

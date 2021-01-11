@@ -84,7 +84,7 @@
             </Grid.ColumnDefinitions>
             <Grid BackgroundColor="#758ABA" Opacity="0.4">
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Label x:Name="dayOneTxt" Text="Sunday" TextColor="White" FontSize="13" HorizontalOptions="Center"/>
+                    <Label x:Name="dayOneTxt" Text="" TextColor="White" FontSize="13" HorizontalOptions="Center"/>
                     <Label x:Name="dateOneTxt" Margin="0,-5,0,0" Text="01 Dec" TextColor="White" FontSize="10" HorizontalOptions="Center"/>
                     <Image x:Name="iconOneImg" Source="cloud.png" Margin="0,20" WidthRequest="30" HeightRequest="22"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="0">
