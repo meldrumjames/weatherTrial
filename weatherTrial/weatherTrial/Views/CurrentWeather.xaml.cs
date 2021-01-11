@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using weatherTrial.Helper;
 using weatherTrial.Models;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,12 +18,49 @@ namespace weatherTrial.Views
         public CurrentWeather()
         {
             InitializeComponent();
-            GetWeatherInfo();
-            GetForecast();
+            GetCoordinates();
         }
 
-        private string Location = "London";
+        private string Location { get; set; } = "London";
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
         private static string Api = "95748421f66c31fa90cc554df977162e";
+
+        private async void GetCoordinates()
+        {
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Best);
+                var location = await Geolocation.GetLocationAsync(request);
+
+                if (location != null)
+                {
+                    Latitude = location.Latitude;
+                    Longitude = location.Longitude;
+
+                    Location = await GetCity(location);
+
+                    GetWeatherInfo();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+        }
+
+        private async Task<string> GetCity(Location location)
+        {
+            var places = await Geocoding.GetPlacemarksAsync(location);
+            var currentPlace = places?.FirstOrDefault();
+
+            if (currentPlace != null)
+                return $"{currentPlace.Locality}, {currentPlace.CountryName}";
+
+            return null;
+        }
 
         private async void GetWeatherInfo()
         {
@@ -45,12 +83,13 @@ namespace weatherTrial.Views
                     cloudinessTxt.Text = $"{weatherInfo.clouds.all}%";
 
                     var dt = new DateTime(1970, 01, 01).ToUniversalTime().AddSeconds(weatherInfo.dt);
-                    //dateTxt.Text = dt.ToString("dddd, MMM dd").ToUpper();
-                    dateTxt.Text = DateTime.Now.ToString();
+                    dateTxt.Text = dt.ToString("dddd, MMM dd").ToUpper();
+
+                    GetForecast();
                 }
                 catch (Exception ex)
                 {
-
+                    await DisplayAlert("Weather Info", ex.Message, "OK");
                 }
             }
             else
